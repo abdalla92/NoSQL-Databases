@@ -52,9 +52,13 @@ Create an index for the movie table's rating column using CQL.
 Write a CQL query to count the number of movies that are rated "G."
 
 ### Cloudant
+Export Cloudant data in CSV, JSONs formats and save to a file
 
+Import data from json into your Cloudant Database
 
+Replicate a local database into your Cloudant instance
 
+Create indexes using HTTP API
 
-
+Query data using HTTP API
 
