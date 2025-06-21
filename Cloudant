@@ -1,0 +1,149 @@
+# Cloudant
+
+# Set-Up Cloudant Enviroment:
+
+  - Create IBM Cloud Account
+
+  - Create IBM Cloudant Instance
+
+  - Using HTTP API to create and query Cloudant databases
+
+    export CLOUDANTURL="<COPIED_VALUE>"
+    curl $CLOUDANTURL
+    curl $CLOUDANTURL/_all_dbs
+
+# Task 1 - Cloudant export data
+
+- Create sample data
+
+curl -X DELETE $CLOUDANTURL/diamonds
+curl -X PUT $CLOUDANTURL/diamonds
+
+curl -X PUT $CLOUDANTURL/diamonds/1 -d '{
+    "carat": 0.31,
+    "cut": "Ideal",
+    "color": "J",
+    "clarity": "SI2",
+    "depth": 62.2,
+    "table": 54,
+    "price": 339
+  }'
+
+curl -X PUT $CLOUDANTURL/diamonds/2 -d '{
+    "carat": 0.2,
+    "cut": "Premium",
+    "color": "E",
+    "clarity": "SI2",
+    "depth": 60.2,
+    "table": 62,
+    "price": 351
+  }'
+
+## Export data from the diamonds database into csv format.
+
+  couchexport --url $CLOUDANTURL --db diamonds --delimiter ","
+
+
+## Export data from the diamonds database into json format (one document per line).
+
+  couchexport --url $CLOUDANTURL --db diamonds --type jsonl
+
+
+## Export data from the diamonds database into json format and save to a file named diamonds.json.
+
+  couchexport --url $CLOUDANTURL --db diamonds --type jsonl > diamonds.json
+
+
+## Export data from the diamonds database into csv format and save to a file named diamonds.csv.
+
+  couchexport --url $CLOUDANTURL --db diamonds --delimiter "," > diamonds.csv
+
+
+
+# Task 2 - Import data into Cloudant
+Right-click on the link and "open in a new tab" to obtain the content of the json file and copy the entire content: movies.json
+
+  https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBM-DB0151EN-SkillsNetwork/labs/Final%20Assignment/data/movie.json
+
+Import data from json into your Cloudant Database
+Go to your Cloudant Service created on IBM Cloud and then click on Launch Dashboard to launch the cloudant databases. 
+Then, click on New database on the top-right corner and create a Non-patitioned database named movies.
+
+Run the given command in the terminal to import movies.json into your Cloudant database movies:
+
+  curl -XPOST $CLOUDANTURL/movies/_bulk_docs -Hcontent-type:application/json -d @movies.json
+
+
+
+Task 3 - Replicate a local database into your Cloudant instance
+Using the replication page in the Cloudant dashboard, replicate the below source database using one time replication.
+
+Source
+
+  Type: Local Database
+
+  Name: movies
+
+  Authentication : IAM Authentication
+
+  Add your Cloudant API key below (you can find it in the service credentials tab).
+
+Target
+
+  Type: New local database
+
+  Authentication : IAM Authentication
+
+  Add your Cloudant API key below (you can find it in the service credentials tab).
+
+Options
+
+Replication type: One time
+Click on Start Replication
+
+
+# Task 4 - Create indexes using HTTP API
+
+Create an index for the "Director”
+
+curl -X POST $CLOUDANTURL/movies/_index \
+-H"Content-Type: application/json" \
+-d'{
+    "index": {
+        "fields": ["Director"]
+    }
+}'
+
+Create an index for the "title”
+
+curl -X POST $CLOUDANTURL/movies/_index \
+-H"Content-Type: application/json" \
+-d'{
+    "index": {
+        "fields": ["title"]
+    }
+}'
+
+# Task 5 - Query data using HTTP API
+  Find movies by Director
+  Write a query to find all movies directed by 'Richard Gage' using the HTTP API
+
+  curl -X POST $CLOUDANTURL/movies/_find \
+  -H"Content-Type: application/json" \
+  -d'{ "selector":
+          {
+              "Director":"Richard Gage"
+          }
+      }'
+
+  Find movie by title
+  Write a query to list only the year and Director keys for the title 'Top Dog' movies using the HTTP API.
+
+  curl -X POST $CLOUDANTURL/movies/_find \
+  -H"Content-Type: application/json" \
+  -d'{ "selector":
+          {
+              "title":"Top Dog"
+          },
+      "fields": ["year", "Director"],
+      }'
