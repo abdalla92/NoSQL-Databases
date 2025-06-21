@@ -12,6 +12,11 @@
     curl $CLOUDANTURL
     curl $CLOUDANTURL/_all_dbs
 
+  - Import ‘couchimport’ and ‘couchexport’ tools to move data in and out of the Cloudant database.
+    sudo npm install -g couchimport@1.4.0
+    couchimport --version
+
+
 # Task 1 - Cloudant export data
 
 - Create sample data
@@ -71,7 +76,7 @@ Then, click on New database on the top-right corner and create a Non-patitioned 
 
 Run the given command in the terminal to import movies.json into your Cloudant database movies:
 
-  curl -XPOST $CLOUDANTURL/movies/_bulk_docs -Hcontent-type:application/json -d @movies.json
+  curl -X POST $CLOUDANTURL/movies/_bulk_docs -H content-type:application/json -d @movies.json
 
 
 
