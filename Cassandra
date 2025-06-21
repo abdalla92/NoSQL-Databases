@@ -1,0 +1,33 @@
+# Cassandra
+
+# Download sample data file
+curl -O https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMSkillsNetwork-DB0151EN-edX/labs/FinalProject/partial_data.csv
+
+
+cqlsh HOST PORT --username root --password PASSWORD
+
+# Task 6 - Create a keyspace named entertainment
+
+CREATE KEYSPACE IF NOT EXISTS entertainment WITH REPLICATION = {'class': 'SimpleStrategy', 'replication_factor': 1};
+
+describe keyspaces;
+
+Task 7 - Import partial_data.csv into cassandra server into a keyspace named entertainment and a table named movies
+
+CREATE TABLE IF NOT EXISTS entertainment.movies (
+    id TEXT PRIMARY KEY,
+    title TEXT,
+    year INT,
+    rating TEXT,
+    director TEXT
+);
+
+COPY entertainment.movies(id, title, year, rating, director) FROM 'partial_data.csv' WITH DELIMITER =',' AND HEADER = TRUE;
+
+# Task 8 - Write a cql query to count the number of rows in the movies table
+
+SELECT COUNT(*) FROM entertainment.movies;
+
+# Task 9 - Create an index for the rating column in the movies table using cql
+
+CREATE INDEX IF NOT EXISTS rating_index ON entertainment.movi
