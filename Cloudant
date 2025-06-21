@@ -67,8 +67,7 @@ curl -X PUT $CLOUDANTURL/diamonds/2 -d '{
 
 # Task 2 - Import data into Cloudant
 Right-click on the link and "open in a new tab" to obtain the content of the json file and copy the entire content: movies.json
-
-  https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBM-DB0151EN-SkillsNetwork/labs/Final%20Assignment/data/movie.json
+  https://github.com/abdalla92/NoSQL-Databases/blob/433c5ac0b8ba47438a9c26b43c5955866750d31d/movies.json
 
 Import data from json into your Cloudant Database
 Go to your Cloudant Service created on IBM Cloud and then click on Launch Dashboard to launch the cloudant databases. 
