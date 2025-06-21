@@ -1,0 +1,48 @@
+# MongoDB
+
+# Install MongoDB client if not already installed
+
+wget https://fastdl.mongodb.org/tools/db/mongodb-database-tools-ubuntu1804-x86_64-100.3.1.tgz
+tar -xf mongodb-database-tools-ubuntu1804-x86_64-100.3.1.tgz
+export PATH=$PATH:/home/project/mongodb-database-tools-ubuntu1804-x86_64-100.3.1/bin
+echo "done"
+
+## Verify mongoimport is available
+
+mongoimport --version
+
+
+# Download sample data file
+
+curl -O https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMSkillsNetwork-DB0151EN-edX/labs/FinalProject/movies.json
+
+# Task 1: Import movies.json into mongodb server into a database named entertainment and a collection named movies.
+
+mongoimport -u root -p PASSWORD --authenticationDatabase admin --db entertainment --collection movies --file movies.json --host mongo
+
+# Task 2: Write a mongodb query to find the year in which most number of movies were released
+
+db.movies.aggregate([
+                      {"$group":{"_id":"$year",
+                                 "totalmovies":{"$sum":1}}},
+                      {$sort:{"totalmovies":-1}},
+                      {$limit:1}
+                      ])
+
+# Task 3: Write a mongodb query to find the count of movies released after the year 1999
+
+db.movies.countDocuments(
+    { year: { $gt: 1999 } }
+)
+
+# Task 4: Write a query to find out the average votes for movies released in 2007
+
+db.movies.aggregate([
+                      {"$match":{"year":2007}},
+                      {"$group":{"_id":"$year",
+                                 "avg_movies":{"$avg":"$Votes"}}}
+                      ])
+# Task 5: Export the fields _id, title, year, rating and director from the movies collection into a file named partial_data.csv
+
+mongoexport -u root -p PASSWORD --authenticationDatabase admin --db entertainment --collection movies --fields "_id,title,year,rating,director" --type=csv --out partial_data.csv --host mongo
+
