@@ -28,18 +28,27 @@ This project demonstrates to perform the following tasks:
 
   Query data in a Cloudant database
 
+## Tasks 
 ### MongoDB
 Import movies.json into the MongoDB server into an entertainment database and a movie collection.
+
 Write a MongoDB query to find the year most movies were released.
+
 Write a MongoDB query to find the count of movies released after the year 1999.
+
 Write a query to determine the average votes for movies released in 2007.
+
 Export selected fields from the movies collection into a file named partial_data.csv.
 
 ### Cassandra
 Create a keyspace named entertainment.
+
 Import partial_data.csv into a Cassandra server.
+
 Write a CQL query to count the movie table's rows.
+
 Create an index for the movie table's rating column using CQL.
+
 Write a CQL query to count the number of movies that are rated "G."
 
 ### Cloudant
