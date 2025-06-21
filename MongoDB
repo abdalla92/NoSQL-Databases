@@ -14,7 +14,7 @@ mongoimport --version
 
 # Download sample data file
 
-curl -O https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMSkillsNetwork-DB0151EN-edX/labs/FinalProject/movies.json
+curl -O https://github.com/abdalla92/NoSQL-Databases/blob/e1778b1f3d98cf687c72ae5d17395cd86c81db63/movies.json
 
 # Task 1: Import movies.json into mongodb server into a database named entertainment and a collection named movies.
 
